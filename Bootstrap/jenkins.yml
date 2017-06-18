@@ -1,0 +1,23 @@
+---
+- hosts: build
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: set data folder
+      file:
+        path: /opt/jenkins
+        state: directory
+        mode: 0777
+        recurse: yes
+    - name: Jenkins container
+      docker_container:
+        name: Jenkins
+        image: jenkins
+        state: started
+        pull: true
+        volumes:
+        - /opt/jenkins:/var/jenkins_home
+        ports:
+        - "8080:8080"
+        - "50000:50000"
+    

@@ -1,0 +1,21 @@
+---
+- hosts: build
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: set data folder
+      file:
+        path: /opt/nexus
+        state: directory
+        mode: 0777
+        recurse: yes
+    - name: Nexus container
+      docker_container:
+        name: Nexus
+        image: sonatype/nexus3
+        state: started
+        pull: true
+        volumes:
+        - /opt/nexus:/nexus-data
+        ports:
+        - "8081:8081"

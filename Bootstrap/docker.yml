@@ -1,0 +1,6 @@
+---
+- hosts: build
+  become: yes
+  become_method: sudo
+  roles:
+     - { role: jgeusebroek.docker, tags: ["docker"] }
